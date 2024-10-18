@@ -7,9 +7,9 @@ This script let you control other instance of roblox with the roblox chat, like 
 
 ## Commands
 
-;status                              |  check if bots are active
-;index                               |  show bots' index
-;follow [plr]                        |  follow someone
+- ;status                              |  check if bots are active
+- ;index                               |  show bots' index
+- ;follow [plr]                        |  follow someone
 ;quit                                |  disconnect admins and owner from the script
 ;dance <number>                      |  make bots dance
 ;undance                             |  make bots stop dancing
