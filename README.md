@@ -1,9 +1,12 @@
 # Bot Controller
 This script let you control other instance of roblox with the roblox chat, like admins commands
-### requirement
+## requirement
 - **Multi-Instance** : You will need a software that let you open multiple instance of roblox at the same time, you can use [Roblox Account Manager](https://github.com/ic3w0lf22/Roblox-Account-Manager).
 - **Multi-Instance Executor** : you need a software that allows you to run multiple roblox instances at the same time
 - **A decent computer** : You'll need plenty of ram to run several instances of roblox at the same time (16GB).
+
+## How it work ?
+You need to put the displayname of your bot in the bots table, put your name in the owner variable, and the number of bot you want to use in nbbot variable. When you run it, the script will check whether the displayname of the player executing this script is in the bots table. If so, he becomes a bot and will perform various actions according to the commands. Bots will listen to admin and owner chats.
 
 ## Commands
 
