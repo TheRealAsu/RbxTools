@@ -1,8 +1,8 @@
 # Bot Controller
 This script let you control other instance of roblox with the roblox chat, like admins commands
 ### requirement
-- **Multi-Instance** : You will need a software that let you can open multiple instance of roblox at the same time, you can use [Roblox Account Manager](https://github.com/ic3w0lf22/Roblox-Account-Manager).
-- **Multi-Instance Executor** : you need software that allows you to run multiple roblox instances at the same time
+- **Multi-Instance** : You will need a software that let you open multiple instance of roblox at the same time, you can use [Roblox Account Manager](https://github.com/ic3w0lf22/Roblox-Account-Manager).
+- **Multi-Instance Executor** : you need a software that allows you to run multiple roblox instances at the same time
 - **A decent computer** : You'll need plenty of ram to run several instances of roblox at the same time (16GB).
 
 ## Commands
