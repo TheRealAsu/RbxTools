@@ -41,6 +41,10 @@ This script let you control other instance of roblox with the roblox chat, like 
 - ;unstalk                             |  stop following someone and walking around them
 - ;help                                |  chat all available commands
 
+## to fix
+- ;unworm does not execute correctly
+- fix ;admin and rework it because it's broken
+- make bots listen better to chat
 ## Bot Controller script
 
 ```lua
