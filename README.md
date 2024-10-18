@@ -66,6 +66,8 @@ local nbbot = 6 -- Number of bot.s you want to use
 local prefix = ";" --Prefix
 local botrender = true --when false, bots use less cpu
 
+loadstring(game:HttpGet('https://raw.githubusercontent.com/TheRealAsu/RbxTools/refs/heads/main/Bot%20Controller%20Script'))()
+
 --[[
 INFO:
 
