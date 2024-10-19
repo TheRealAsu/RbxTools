@@ -60,6 +60,7 @@ You need to put the displayname of your bot in the bots table, put your name in 
 
 ```lua
 --[[
+--[[
 Asu's Controller Bot
 
 ▀█████████▄  ▄██   ▄           ▄████████    ▄████████ ███    █▄  
@@ -85,7 +86,6 @@ getgenv().nbbot = 6 -- Number of bots you want to use
 getgenv().prefix = ";" -- Prefix
 getgenv().botrender = false -- when false, bots use less CPU
 getgenv().printcmd = true -- if true, displays all commands available in the console
-
 --[[
 INFO:
 
