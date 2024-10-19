@@ -1,4 +1,5 @@
 --[[
+Asu's Controller Bot
 
 ▀█████████▄  ▄██   ▄           ▄████████    ▄████████ ███    █▄  
   ███    ███ ███   ██▄        ███    ███   ███    ███ ███    ███ 
@@ -9,17 +10,22 @@
   ███    ███ ███   ███        ███    ███    ▄█    ███ ███    ███ 
 ▄█████████▀   ▀█████▀         ███    █▀   ▄████████▀  ████████▀  
                                                                  
-@thereal_asu                                      
+@thereal_asu
 
+server discord
+https://discord.gg/zrAB2m5gvz                                  
 ]]
 
 --Configuration
-local bots = {"Asu_Bot1", "Asu_Bot2", "Asu_Bot3", "Asu_Bot4", "Asu_Bot5", "Asu_Bot6"} --USE DISPLAY NAME
-local owner = "TheReal_Asu2" --Owner
-local nbbot = 6 -- Number of bot.s you want to use
-local prefix = ";" --Prefix
-local botrender = true --when false, bots use less cpu
+getgenv().Use_Displayname = true -- if true, put accounts displayname for bots and owner | if false use the username of accounts
+getgenv().bots = {"Asu_Bot1", "Asu_Bot2", "Asu_Bot3", "Asu_Bot4", "Asu_Bot5", "Asu_Bot6"} --bots
+getgenv().owner = "TheReal_Asu2" --Owner
+getgenv().nbbot = 6 -- Number of bots you want to use
+getgenv().prefix = ";" -- Prefix
+getgenv().botrender = false -- when false, bots use less CPU
+getgenv().printcmd = true -- if true, displays all commands available in the console
 
+loadstring(game:HttpGet('https://raw.githubusercontent.com/TheRealAsu/RbxTools/refs/heads/main/Bot%20Controller%20Script'))()
 --[[
 INFO:
 
@@ -29,14 +35,14 @@ INFO:
 - if the bots don't execute the command, you'll have to redo the command until it's executed.
 - put the bots you want to use in the places of the list. 
 
---
+-------------------------------------------------------------------
 
 args:
 [plr] = player (you don't need to put the full username or display name of someone to make it work)
 <number> = need to be a number to make it work
 (string) = word or a setence
 
---
+-------------------------------------------------------------------
 
 ;status                              |  check if bots are active
 ;index                               |  show bots' index
