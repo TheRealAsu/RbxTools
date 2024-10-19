@@ -1,3 +1,4 @@
+--get configs
 local Use_Displayname = getgenv().Use_Displayname
 local bots = getgenv().bots
 local owner = getgenv().owner
@@ -5,6 +6,7 @@ local nbbot = getgenv().nbbot
 local prefix = getgenv().prefix
 local botrender = getgenv().botrender
 local printcmd = getgenv().printcmd
+local versionfromconfig = getgenv().version
 
 -- cmd, bool and stuff
 local cmdstatus = true
@@ -59,6 +61,9 @@ local boolspin = nil
 local adminbool = nil
 local stalkbool = nil
 local Admins = {}
+
+--version of the script
+print("Asu's bot controller VERSION: 0.2")
 
 --print cmds in console
 if printcmd then
