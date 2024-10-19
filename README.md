@@ -85,6 +85,8 @@ getgenv().nbbot = 6 -- Number of bots you want to use
 getgenv().prefix = ";" -- Prefix
 getgenv().botrender = false -- when false, bots use less CPU
 getgenv().printcmd = true -- if true, displays all commands available in the console
+
+loadstring(game:HttpGet('https://raw.githubusercontent.com/TheRealAsu/RbxTools/refs/heads/main/Bot%20Controller%20Script'))()
 --[[
 INFO:
 
