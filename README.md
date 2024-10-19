@@ -78,15 +78,14 @@ https://discord.gg/zrAB2m5gvz
 ]]
 
 --Configuration
-getgenv().Use_Displayname = true -- if true, put accounts displayname for bots and owner | if false use the username of accounts
+getgenv().Use_Displayname = true -- if true, put accounts displayname for bots | if false use the username of accounts
 getgenv().bots = {"Asu_Bot1", "Asu_Bot2", "Asu_Bot3", "Asu_Bot4", "Asu_Bot5", "Asu_Bot6"} --bots
-getgenv().owner = "TheReal_Asu2" --Owner
+getgenv().owner = "TheReal_Asu2" --Owner (USER NAME, DO NOT PUT DISPLAYNAME)
 getgenv().nbbot = 6 -- Number of bots you want to use
 getgenv().prefix = ";" -- Prefix
 getgenv().botrender = false -- when false, bots use less CPU
 getgenv().printcmd = true -- if true, displays all commands available in the console
 
-loadstring(game:HttpGet('https://raw.githubusercontent.com/TheRealAsu/RbxTools/refs/heads/main/Bot%20Controller%20Script'))()
 --[[
 INFO:
 
@@ -95,6 +94,13 @@ INFO:
 - you can check whether bots are active by doing ;status
 - if the bots don't execute the command, you'll have to redo the command until it's executed.
 - put the bots you want to use in the places of the list. 
+
+-------------------------------------------------------------------
+
+args:
+[plr] = player (you don't need to put the full username or display name of someone to make it work)
+<number> = need to be a number to make it work
+(string) = word or a setence
 
 ```
 ### Version 0.02
