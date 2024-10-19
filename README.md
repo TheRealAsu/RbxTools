@@ -104,4 +104,4 @@ args:
 (string) = word or a setence
 ]]
 ```
-### Version 0.02
+### Version 0.2
