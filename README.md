@@ -5,7 +5,7 @@ This script let you control other instance of roblox with the roblox chat, like 
 - **Multi-Instance Executor** : you need a software that allows you to run multiple roblox instances at the same time
 - **A decent computer** : You'll need plenty of ram to run several instances of roblox at the same time (16GB).
 
-## How it work ?
+## want to recieve news or need help?
 Discord: https://discord.gg/zrAB2m5gvz
 
 ## How it work ?
