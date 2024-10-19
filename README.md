@@ -60,7 +60,6 @@ You need to put the displayname of your bot in the bots table, put your name in 
 
 ```lua
 --[[
---[[
 Asu's Controller Bot
 
 ▀█████████▄  ▄██   ▄           ▄████████    ▄████████ ███    █▄  
