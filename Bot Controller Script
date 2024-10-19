@@ -1,3 +1,11 @@
+local Use_Displayname = getgenv().Use_Displayname
+local bots = getgenv().bots
+local owner = getgenv().owner
+local nbbot = getgenv().nbbot
+local prefix = getgenv().prefix
+local botrender = getgenv().botrender
+local printcmd = getgenv().printcmd
+
 -- cmd, bool and stuff
 local cmdstatus = true
 local cmdindex = true
@@ -52,6 +60,49 @@ local adminbool = nil
 local stalkbool = nil
 local Admins = {}
 
+--print cmds in console
+if printcmd then
+print("Asu's Bot Controller")
+print("-------------------------------------------------------------------")
+print("args:")
+print("[plr] = player (you don't need to put the full username or display name of someone to make it work)")
+print("<number> = need to be a number to make it work")
+print("(string) = word or a sentence")
+print("-------------------------------------------------------------------")
+print(";status                              |  check if bots are active")
+print(";index                               |  show bots' index")
+print(";follow [plr]                        |  follow someone")
+print(";quit                                |  disconnect admins and owner from the script")
+print(";dance <number>                      |  make bots dance")
+print(";undance                             |  make bots stop dancing")
+print(";reset                               |  make bots reset")
+print(";jump                                |  make bots jump")
+print(";say <sentence>                      |  make bots say something")
+print(";unfollow                            |  unfollow the player that the bots are following")
+print(";orbit [plr] <radius> <speed>        |  orbit around someone V1 (normal orbit)")
+print(";orbit2 [plr] <radius> <speed>       |  orbit around someone V2 (cooler)")
+print(";orbit3 [plr] <radius> <speed>       |  orbit around someone V3")
+print(";orbit4 [plr] <radius> <speed>       |  orbit around someone V4")
+print(";orbit5 [plr] <radius> <speed>       |  orbit around someone V5")
+print(";orbit6 [plr] <radius> <speed>       |  orbit around someone V6 (chaotic)")
+print(";unorbit                             |  stop bots from orbiting")
+print(";goto [plr]                          |  teleport bots to a player")
+print(";align                               |  make a line with the bots")
+print(";ws <number>                         |  change bots' walk speed")
+print(";loopjump                            |  make bots jump in a loop")
+print(";unloopjump                          |  stop the jump loop")
+print(";circle <number>                     |  make bots form a circle around you")
+print(";channel <number>                    |  change the bot that says the messages")
+print(";worm [plr]                          |  make a worm/train/snake formation with bots")
+print(";unworm                              |  stop the worm/train/snake formation")
+print(";spin <number>                       |  make bots spin")
+print(";unspin                              |  make bots stop spinning")
+print(";admin [plr]                         |  give admin to someone, users with admin permission will be allowed to control the bots")
+print(";arch <number>                       |  make a half-circle with the bots")
+print(";stalk [plr]                         |  follow someone and walk around them")
+print(";unstalk                             |  stop following someone and walking around them")
+print(";help                                |  chat all available commands")
+end
 
 -- Services
 local Players = game:GetService("Players")
@@ -61,6 +112,7 @@ local VirtualUser = game:GetService("VirtualUser")
 
 local player = game.Players.LocalPlayer
 local displayName = player.DisplayName
+local user = player.DisplayName
 local offset = math.random(0, 360)
 
 local ownerPlayer = game.Players:FindFirstChild(owner)
@@ -68,10 +120,20 @@ local adminNotConnected = {}
 
 -- index bot
 local index
-for i, bot in ipairs(bots) do
-  if displayName == bot then
-    index = i
-    break
+
+if Use_Displayname then
+  for i, bot in ipairs(bots) do
+    if displayName == bot then
+      index = i
+      break
+    end
+  end
+else
+  for i, bot in ipairs(bots) do
+    if user == bot then
+      index = i
+      break
+    end
   end
 end
 
@@ -80,9 +142,11 @@ if index then
     indexcircle = (360 / nbbot * index)
 end
 
---disable render (less cpu usage)
+--disable/able render (less cpu usage)
 if index and botrender then
-    RunService:Set3dRenderingEnabled(false)
+  RunService:Set3dRenderingEnabled(false)
+else
+  RunService:Set3dRenderingEnabled(true)
 end
 
 -- Isindex
