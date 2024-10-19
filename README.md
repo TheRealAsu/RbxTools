@@ -94,13 +94,5 @@ INFO:
 - you can check whether bots are active by doing ;status
 - if the bots don't execute the command, you'll have to redo the command until it's executed.
 - put the bots you want to use in the places of the list. 
-
--------------------------------------------------------------------
-
-args:
-[plr] = player (you don't need to put the full username or display name of someone to make it work)
-<number> = need to be a number to make it work
-(string) = word or a setence
-
 ```
 ### Version 0.02
