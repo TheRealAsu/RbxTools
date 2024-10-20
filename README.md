@@ -1,4 +1,4 @@
-# Asu's Bot Controller FE V0.2
+# Asu's Bot Controller FE V0.2.1
 This script let you control other instance of roblox with the roblox chat, like admins commands
 ## requirement
 - **Multi-Instance** : You will need a software that let you open multiple instance of roblox at the same time, you can use [Roblox Account Manager](https://github.com/ic3w0lf22/Roblox-Account-Manager).
@@ -107,4 +107,4 @@ args:
 (string) = word or a setence
 ]]
 ```
-### Version 0.2.2
+### Version 0.2.1
