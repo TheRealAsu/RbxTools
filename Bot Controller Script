@@ -43,7 +43,11 @@ local cmdorbit6 = true
 local cmdstalk = true
 local cmdunstalk = true
 local cmdhelp = true
+local cmdtower = true
+local cmduntower = true
+local cmdfix = true
 
+local towerbool = nil
 local followbool = nil
 local orbitbool = nil
 local orbitbool2 = nil
@@ -63,7 +67,7 @@ local stalkbool = nil
 local Admins = {}
 
 --version of the script
-print("Asu's bot controller VERSION: 0.2")
+print("Asu's bot controller VERSION: 0.2.1")
 
 --print cmds in console
 if printcmd then
@@ -82,7 +86,7 @@ print(";dance <number>                      |  make bots dance")
 print(";undance                             |  make bots stop dancing")
 print(";reset                               |  make bots reset")
 print(";jump                                |  make bots jump")
-print(";say <sentence>                      |  make bots say something")
+print(";say (sentence)                      |  make bots say something")
 print(";unfollow                            |  unfollow the player that the bots are following")
 print(";orbit [plr] <radius> <speed>        |  orbit around someone V1 (normal orbit)")
 print(";orbit2 [plr] <radius> <speed>       |  orbit around someone V2 (cooler)")
@@ -92,7 +96,7 @@ print(";orbit5 [plr] <radius> <speed>       |  orbit around someone V5")
 print(";orbit6 [plr] <radius> <speed>       |  orbit around someone V6 (chaotic)")
 print(";unorbit                             |  stop bots from orbiting")
 print(";goto [plr]                          |  teleport bots to a player")
-print(";align                               |  make a line with the bots")
+print(";align [plr]                         |  make a line with the bots")
 print(";ws <number>                         |  change bots' walk speed")
 print(";loopjump                            |  make bots jump in a loop")
 print(";unloopjump                          |  stop the jump loop")
@@ -107,6 +111,9 @@ print(";arch <number>                       |  make a half-circle with the bots"
 print(";stalk [plr]                         |  follow someone and walk around them")
 print(";unstalk                             |  stop following someone and walking around them")
 print(";help                                |  chat all available commands")
+print(";tower [plr]                         |  makes a tower of bots")
+print(";untower                             |  undo the tower")
+print(";fix                                 |  try to fix the bot if glitched")
 end
 
 -- Services
@@ -117,7 +124,7 @@ local VirtualUser = game:GetService("VirtualUser")
 
 local player = game.Players.LocalPlayer
 local displayName = player.DisplayName
-local user = player.DisplayName
+local user = player.Name
 local offset = math.random(0, 360)
 
 local ownerPlayer = game.Players:FindFirstChild(owner)
@@ -175,6 +182,19 @@ end
 
 -- make life easy, with this you don't have to type someone's whole name
 local function findPlayerByName(partialName)
+  -- Si partialName est "me", utiliser le nom de la variable owner
+  if partialName:lower() == "me" then
+    return game.Players:FindFirstChild(owner)
+  end
+
+  -- Si partialName est "random", retourner un joueur aléatoire
+  if partialName:lower() == "random" then
+    local players = game.Players:GetPlayers()
+    if #players > 0 then
+      return players[math.random(1, #players)] -- Retourne un joueur aléatoire
+    end
+  end
+
   local bestMatch = nil
   local bestMatchScore = 0
 
@@ -182,7 +202,6 @@ local function findPlayerByName(partialName)
     local nameMatch = plr.Name:lower():find(partialName:lower())
     local displayNameMatch = plr.DisplayName:lower():find(partialName:lower())
 
-    -- Vérifier la correspondance du nom/nom affiché
     if nameMatch or displayNameMatch then
       local score = (nameMatch and #plr.Name or 0) + (displayNameMatch and #plr.DisplayName or 0)
       if score > bestMatchScore then
@@ -195,6 +214,58 @@ local function findPlayerByName(partialName)
   return bestMatch
 end
 
+--no more bots flinging away with this
+local function removeVelocity()
+  for _, v in pairs(player.Character:GetDescendants()) do
+      if v:IsA("BasePart") then
+          v.Velocity = Vector3.new(0, 0, 0)
+          v.RotVelocity = Vector3.new(0, 0, 0)
+      elseif v:IsA("BodyVelocity") then
+          v.Velocity = Vector3.new(0, 0, 0)
+      elseif v:IsA("BodyAngularVelocity") then
+          v.AngularVelocity = Vector3.new(0, 0, 0)
+      elseif v:IsA("BodyPosition") then
+          v.Position = v.Position
+      elseif v:IsA("BodyGyro") then
+          v.CFrame = v.CFrame
+      end
+  end
+end
+
+-- this function make the script a bit more smarter
+local function disablebool()
+towerbool = false
+followbool = false
+orbitbool = false
+orbitbool2 = false
+orbitbool3 = false
+orbitbool4 = false
+orbitbool5 = false
+orbitbool6 = false
+booljump = false
+wormbool = false
+boolspin = false
+stalkbool = false
+end
+
+-- ;fix
+local function fix()
+removeVelocity()
+towerbool = false
+followbool = false
+orbitbool = false
+orbitbool2 = false
+orbitbool3 = false
+orbitbool4 = false
+orbitbool5 = false
+orbitbool6 = false
+booljump = false
+wormbool = false
+boolspin = false
+stalkbool = false
+game.Workspace.Gravity = 196.2
+player.Character:BreakJoints()
+end
 -- ;circle
 local function tpcircle(distance)
   if distance == 0 then
@@ -218,6 +289,7 @@ local function tpcircle(distance)
     return
   end
 
+  removeVelocity()
   local angle = math.rad(0 + indexcircle)
   local offsetX = distance * math.cos(angle)
   local offsetZ = distance * math.sin(angle)
@@ -241,14 +313,15 @@ local function tparch(distance)
   if not targetHumanoidRootPart then
     return
   end
-
+  
   local player = Players.LocalPlayer
   local playerCharacter = player.Character
   local playerHumanoidRootPart = playerCharacter:FindFirstChild("HumanoidRootPart")
   if not playerHumanoidRootPart then
     return
   end
-
+  
+  removeVelocity()
   local angle = math.rad(0 + (indexcircle)/2)
   local offsetX = distance * math.cos(angle)
   local offsetZ = distance * math.sin(angle)
@@ -258,12 +331,12 @@ local function tparch(distance)
 end
 
 -- ;align
-local function align(ownerPlayer)
-  if not ownerPlayer or not ownerPlayer.Character then
+local function align(targetPlayer)
+  if not targetPlayer or not targetPlayer.Character then
     return
   end
 
-  local targetHumanoidRootPart = ownerPlayer.Character:FindFirstChild("HumanoidRootPart")
+  local targetHumanoidRootPart = targetPlayer.Character:FindFirstChild("HumanoidRootPart")
   if not targetHumanoidRootPart then
     return
   end
@@ -272,7 +345,8 @@ local function align(ownerPlayer)
     local localHumanoidRootPart = player.Character:FindFirstChild("HumanoidRootPart")
     if localHumanoidRootPart then
 
-      local offset = targetHumanoidRootPart.CFrame.RightVector * -5 * index  -- NEGATIVE IS LEFT
+      removeVelocity()
+      local offset = targetHumanoidRootPart.CFrame.RightVector * -5 * index  -- NEGATIVE IS LEFT, change this if you want it to go right
       localHumanoidRootPart.CFrame = targetHumanoidRootPart.CFrame + offset
     end
   end
@@ -292,11 +366,45 @@ local function goto(targetPlayer)
   if player and player.Character then
     local localHumanoidRootPart = player.Character:FindFirstChild("HumanoidRootPart")
     if localHumanoidRootPart then
+      removeVelocity()
       localHumanoidRootPart.CFrame = targetHumanoidRootPart.CFrame + Vector3.new(0, 0, 0)
     end
   end
 end
 
+-- ;tower
+local function tower(targetPlayer)
+  if not targetPlayer or not targetPlayer.Character then
+      return
+  end
+
+  local targetHumanoidRootPart = targetPlayer.Character:FindFirstChild("HumanoidRootPart")
+  if not targetHumanoidRootPart then
+      return
+  end
+
+  towerbool = true
+
+  local heartbeatConnection
+  heartbeatConnection = RunService.Heartbeat:Connect(function()
+      if not towerbool or not targetHumanoidRootPart or not targetPlayer.Character then
+          heartbeatConnection:Disconnect()
+          return
+      end
+
+      if player and player.Character then
+          local localHumanoidRootPart = player.Character:FindFirstChild("HumanoidRootPart")
+          if localHumanoidRootPart then
+              local offset = targetHumanoidRootPart.CFrame.UpVector * 5 * index
+              localHumanoidRootPart.CFrame = targetHumanoidRootPart.CFrame + offset
+
+              removeVelocity()
+          end
+      end
+  end)
+end
+
+-- ;follow
 local function followPlayer(targetPlayer)
   if targetPlayer.Character and targetPlayer.Character:FindFirstChild("HumanoidRootPart") then
     while followbool and targetPlayer and targetPlayer.Character and targetPlayer.Character:FindFirstChild("HumanoidRootPart") do
@@ -399,6 +507,7 @@ local function orbitPlayer(targetPlayer, speed, r)
     return
   end
 
+  removeVelocity()
   local newCFrame = CFrame.new(targetHumanoidRootPart.Position)
   * CFrame.Angles(0, math.rad(rotation), 0) -- if you are bored try to mess with values
   * CFrame.new(r, 0, 0)
@@ -437,6 +546,7 @@ local function orbitPlayer2(targetPlayer, speed, r)
     return
   end
 
+  removeVelocity()
   local newCFrame = CFrame.new(targetHumanoidRootPart.Position)
   * CFrame.Angles(math.rad(rotation), math.rad(rotation), 0)
   * CFrame.new(r, 0, 0)
@@ -467,6 +577,7 @@ local function orbitPlayer3(targetPlayer, speed, r)
     return
   end
 
+  removeVelocity()
   local rotation = indexcircle
   local orbitConnection
   orbitConnection = RunService.Heartbeat:Connect(function()
@@ -505,6 +616,7 @@ local function orbitPlayer4(targetPlayer, speed, r)
     return
   end
 
+  removeVelocity()
   local rotation = indexcircle
   local orbitConnection
   orbitConnection = RunService.Heartbeat:Connect(function()
@@ -551,6 +663,7 @@ local function orbitPlayer5(targetPlayer, speed, r)
     return
   end
 
+  removeVelocity()
   local newCFrame = CFrame.new(targetHumanoidRootPart.Position)
   * CFrame.Angles(math.rad(math.random(0, 360)), math.rad(math.random(0, 360)), math.rad(math.random(0, 360)))
   * CFrame.new(r, 0, 0)
@@ -589,6 +702,7 @@ local function orbitPlayer6(targetPlayer, speed, r)
     return
   end
 
+  removeVelocity()
   local newCFrame = CFrame.new(targetHumanoidRootPart.Position)
   * CFrame.Angles(math.rad(math.random(0, 360)), math.rad(math.random(0, 360)), 0)
   * CFrame.new(r, 0, 0)
@@ -707,6 +821,10 @@ local function connectChatListener(playerpower)
         stalkbool = false
         cmdunstalk = false
         cmdhelp = false
+        towerbool = false
+        cmdtower = false
+        cmduntower = false
+        cmdfix = false
         Admins = {}
         adminNotConnected = {}
         chatMessage("quit")
@@ -735,6 +853,10 @@ local function connectChatListener(playerpower)
       elseif command:sub(1, 15) == "unloopjump" and cmdunloopjump and table.find(bots, displayName) then
         booljump = false
         wait(2)
+      
+      elseif command:sub(1, 8) == "untower" and cmduntower and table.find(bots, displayName) then
+          towerbool = false
+          wait(2)
 
       elseif command == "loopjump" and cmdloopjump and table.find(bots, displayName) then
         booljump = true
@@ -744,17 +866,21 @@ local function connectChatListener(playerpower)
         end
         wait(2)
 
-      elseif command == "align" and cmdalign and table.find(bots, displayName) then
-        local ownerPlayer = game.Players:FindFirstChild(owner)
-        if ownerPlayer then
-          align(ownerPlayer)
+      elseif command:sub(1, 6) == "align " and cmdalign and table.find(bots, displayName) then
+        disablebool()
+        local playerName = command:sub(7)
+        local targetPlayer = findPlayerByName(playerName)
+        if targetPlayer then
+          align(targetPlayer)
+          wait(2)
+        else
+          chatMessage("Player not found: " .. playerName)
+        end
+          align(targetPlayer)
           if index == channel then
             chatMessage("yes sir!")
           end
           wait(2)
-        else
-          chatMessage("Owner not found!")
-        end
 
       elseif command:sub(1, 7) == "dance" and table.find(bots, displayName) and cmddance then
         chatMessage("/e dance")
@@ -809,11 +935,13 @@ local function connectChatListener(playerpower)
         wait(2)
 
       elseif command:sub(1, 7) == "circle " and table.find(bots, displayName) and cmdcircle then
+        disablebool()
         local circlearg = tonumber(command:sub(8)) or 8
         tpcircle(circlearg)
         wait(2)
 
       elseif command:sub(1, 5) == "arch " and table.find(bots, displayName) and cmdarch then
+        disablebool()
         local archarg = tonumber(command:sub(6)) or 8
         tparch(archarg)
         wait(2)
@@ -821,6 +949,11 @@ local function connectChatListener(playerpower)
       elseif command:sub(1, 4) == "say " and table.find(bots, displayName) and cmdsay then
         local msgcontent = command:sub(5)
         chatMessage(msgcontent)
+        wait(2)
+
+      elseif command:sub(1, 4) == "fix" and table.find(bots, displayName) and cmdfix then
+        fix()
+        chatmessage("Bot number "..index.."is fixed")
         wait(2)
 
       elseif command:sub(1, 7) == "jump" and table.find(bots, displayName) and cmdjump then
@@ -842,10 +975,22 @@ local function connectChatListener(playerpower)
         wait(2)
 
     elseif command:sub(1, 5) == "goto " and table.find(bots, displayName) and cmdgoto then
+      disablebool()
         local playerName = command:sub(6)
         local targetPlayer = findPlayerByName(playerName)
         if targetPlayer then
           goto(targetPlayer)
+          wait(2)
+        else
+          chatMessage("Player not found: " .. playerName)
+        end
+
+    elseif command:sub(1, 6) == "tower " and table.find(bots, displayName) and cmdtower then
+      disablebool()
+        local playerName = command:sub(7)
+        local targetPlayer = findPlayerByName(playerName)
+        if targetPlayer then
+          tower(targetPlayer)
           wait(2)
         else
           chatMessage("Player not found: " .. playerName)
@@ -866,6 +1011,7 @@ local function connectChatListener(playerpower)
         wait(2)
 
     elseif command:sub(1, 6) == "orbit " and table.find(bots, displayName) and cmdorbit then
+      disablebool()
         orbitbool = false
         local args = command:split(" ")
         local playerName = args[2] 
@@ -889,6 +1035,7 @@ local function connectChatListener(playerpower)
         end
 
     elseif command:sub(1, 7) == "orbit2 " and table.find(bots, displayName) and cmdorbit2 then
+      disablebool()
         orbitbool2 = false
         local args = command:split(" ")
         local playerName = args[2]
@@ -912,6 +1059,7 @@ local function connectChatListener(playerpower)
         end
 
     elseif command:sub(1, 7) == "orbit3 " and table.find(bots, displayName) and cmdorbit3 then
+      disablebool()
         orbitbool3 = false
         local args = command:split(" ")
         local playerName = args[2]
@@ -934,6 +1082,7 @@ local function connectChatListener(playerpower)
           end
         end
     elseif command:sub(1, 7) == "orbit4 " and table.find(bots, displayName) and cmdorbit4 then
+      disablebool()
         orbitbool4 = false
         local args = command:split(" ")
         local playerName = args[2]
@@ -957,6 +1106,7 @@ local function connectChatListener(playerpower)
         end
 
     elseif command:sub(1, 7) == "orbit6 " and table.find(bots, displayName) and cmdorbit6 then
+      disablebool()
         orbitbool6 = false
         local args = command:split(" ")
         local playerName = args[2]
@@ -980,6 +1130,7 @@ local function connectChatListener(playerpower)
         end
 
     elseif command:sub(1, 7) == "orbit5 " and table.find(bots, displayName) and cmdorbit5 then
+      disablebool()
         orbitbool5 = false
         local args = command:split(" ")
         local playerName = args[2]
@@ -1004,11 +1155,13 @@ local function connectChatListener(playerpower)
         end
 
     elseif command:sub(1, 6) == "reset" and table.find(bots, displayName) and cmdreset then
+      disablebool()
         player.Character:BreakJoints()
         game.Workspace.Gravity = 196.2
         wait(2)
 
     elseif command:sub(1, 5) == "worm " and table.find(bots, displayName) and cmdworm then
+      disablebool()
         local playerName = command:sub(6) -- Obtenir le nom du joueur à suivre
         local targetPlayer = findPlayerByName(playerName)
         wormbool = false
@@ -1023,6 +1176,7 @@ local function connectChatListener(playerpower)
         wait(2)
 
     elseif command:sub(1, 6) == "stalk " and table.find(bots, displayName) and cmdstalk then
+      disablebool()
         stalkbool = false
         local playerName = command:sub(7)
         local targetPlayer = findPlayerByName(playerName)
@@ -1040,6 +1194,7 @@ local function connectChatListener(playerpower)
         end
 
     elseif command:sub(1, 7) == "follow " and table.find(bots, displayName) and cmdfollow then
+      disablebool()
         followbool = false
         local playerName = command:sub(8)
         local targetPlayer = findPlayerByName(playerName)
