@@ -13,39 +13,42 @@ You need to put the displayname of your bot in the bots table, put your name in 
 
 ## Commands
 
-- ;status                              |  check if bots are active
-- ;index                               |  show bots' index
-- ;follow [plr]                        |  follow someone
-- ;quit                                |  disconnect admins and owner from the script
-- ;dance <number>                      |  make bots dance
-- ;undance                             |  make bots stop dancing
-- ;reset                               |  make bots reset
-- ;jump                                |  make bots jump
-- ;say <sentence>                      |  make bots say something
-- ;unfollow                            |  unfollow the player that the bots are following
-- ;orbit [plr] <radius> <speed>        |  orbit around someone V1 (normal orbit)
-- ;orbit2 [plr] <radius> <speed>       |  orbit around someone V2 (cooler)
-- ;orbit3 [plr] <radius> <speed>       |  orbit around someone V3
-- ;orbit4 [plr] <radius> <speed>       |  orbit around someone V4
-- ;orbit5 [plr] <radius> <speed>       |  orbit around someone V5
-- ;orbit6 [plr] <radius> <speed>       |  orbit around someone V6 (chaotic)
-- ;unorbit                             |  stop bots from orbiting
-- ;goto [plr]                          |  teleport bots to a player
-- ;align                               |  make a line with the bots
-- ;ws <number>                         |  change bots' walk speed
-- ;loopjump                            |  make bots jump in a loop
-- ;unloopjump                          |  stop the jump loop
-- ;circle <number>                     |  make bots form a circle around you
-- ;channel <number>                    |  change the bot that says the messages
-- ;worm [plr]                          |  make a worm/train/snake formation with bots
-- ;unworm                              |  stop the worm/train/snake formation
-- ;spin <number>                       |  make bots spin
-- ;unspin                              |  make bots stop spinning
-- ;admin [plr]                         |  give admin to someone, users with admin permission will be allowed to control the bots
-- ;arch <number>                       |  make a half-circle with the bots
-- ;stalk [plr]                         |  follow someone and walk around them
-- ;unstalk                             |  stop following someone and walking around them
-- ;help                                |  chat all available commands
+;status                              |  check if bots are active
+;index                               |  show bots' index
+;follow [plr]                        |  follow someone
+;quit                                |  disconnect admins and owner from the script
+;dance <number>                      |  make bots dance
+;undance                             |  make bots stop dancing
+;reset                               |  make bots reset
+;jump                                |  make bots jump
+;say (sentence)                      |  make bots say something
+;unfollow                            |  unfollow the player that the bots are following
+;orbit [plr] <radius> <speed>        |  orbit around someone V1 (normal orbit)
+;orbit2 [plr] <radius> <speed>       |  orbit around someone V2 (cooler)
+;orbit3 [plr] <radius> <speed>       |  orbit around someone V3
+;orbit4 [plr] <radius> <speed>       |  orbit around someone V4
+;orbit5 [plr] <radius> <speed>       |  orbit around someone V5
+;orbit6 [plr] <radius> <speed>       |  orbit around someone V6 (chaotic)
+;unorbit                             |  stop bots from orbiting
+;goto [plr]                          |  teleport bots to a player
+;align [plr]                         |  make a line with the bots
+;ws <number>                         |  change bots' walk speed
+;loopjump                            |  make bots jump in a loop
+;unloopjump                          |  stop the jump loop
+;circle <number>                     |  make bots form a circle around you
+;channel <number>                    |  change the bot that says the messages
+;worm [plr]                          |  make a worm/train/snake formation with bots
+;unworm                              |  stop the worm/train/snake formation
+;spin <number>                       |  make bots spin
+;unspin                              |  make bots stop spinning
+;admin [plr]                         |  give admin to someone, users with admin permission will be allowed to control the bots
+;arch <number>                       |  make a half-circle with the bots
+;stalk [plr]                         |  follow someone and walk around them
+;unstalk                             |  stop following someone and walking around them
+;help                                |  chat all available commands
+;tower [plr]                         |  makes a tower of bots
+;untower                             |  undo the tower
+;fix                                 |  try to fix the bot if glitched
 
 ## to Do
 - somme more funny commands
@@ -104,4 +107,4 @@ args:
 (string) = word or a setence
 ]]
 ```
-### Version 0.2
+### Version 0.2.2
