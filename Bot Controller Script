@@ -182,16 +182,14 @@ end
 
 -- make life easy, with this you don't have to type someone's whole name
 local function findPlayerByName(partialName)
-  -- Si partialName est "me", utiliser le nom de la variable owner
   if partialName:lower() == "me" then
     return game.Players:FindFirstChild(owner)
   end
 
-  -- Si partialName est "random", retourner un joueur aléatoire
   if partialName:lower() == "random" then
     local players = game.Players:GetPlayers()
     if #players > 0 then
-      return players[math.random(1, #players)] -- Retourne un joueur aléatoire
+      return players[math.random(1, #players)]
     end
   end
 
