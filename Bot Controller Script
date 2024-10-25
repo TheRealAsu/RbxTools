@@ -154,7 +154,7 @@ if index then
     indexcircle = (360 / nbbot * index)
 end
 
---disable/able render (less cpu usage)
+--disable/enable render (less cpu usage)
 if index and botrender then
   RunService:Set3dRenderingEnabled(false)
 else
